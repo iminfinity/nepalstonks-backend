@@ -7,22 +7,29 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/iminfinity/nepalstonks/api"
+	"github.com/rs/cors"
 )
 
 func main() {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/stock-data/{stock}", api.GetStockData).Methods("GET")
+	router.HandleFunc("/api/stock-data/{stock}", api.GetStockData).Methods("GET")
 
-	router.HandleFunc("/update-every-day/{token}", api.UpdateEveryDay).Methods("GET")
+	router.HandleFunc("/api/update-every-day/{token}", api.UpdateEveryDay).Methods("GET")
 
-	router.HandleFunc("/give", api.Give).Methods("GET")
+	router.HandleFunc("/api/stock-list", api.GetStockList).Methods("GET")
+
+	router.HandleFunc("/api/give", api.Give).Methods("GET")
 
 	port := os.Getenv("PORT")
 	if port == "" {
 		fmt.Printf("$PORT not set")
 	}
 
-	http.ListenAndServe(":"+port, router)
+	corsHandler := cors.New(cors.Options{
+		AllowedOrigins: []string{"http://localhost:3000"},
+	})
+
+	http.ListenAndServe(":"+port, corsHandler.Handler(router))
 
 }

@@ -15,6 +15,7 @@ var client *mongo.Client
 var ctx context.Context
 var stonksDatabase *mongo.Database
 var stocksCollection *mongo.Collection
+var stocksListCollection *mongo.Collection
 var err error
 
 func init() {
@@ -37,4 +38,5 @@ func init() {
 
 	stonksDatabase = client.Database("stonks")
 	stocksCollection = stonksDatabase.Collection("stocksData")
+	stocksListCollection = stonksDatabase.Collection("stocksList")
 }

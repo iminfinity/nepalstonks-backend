@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -17,7 +18,7 @@ import (
 func updateSingleStock(stockFromHerocu models.ResponsedDataFromHerocu) {
 	stockSymbol := stockFromHerocu.StockSymbol
 
-	var stock models.StockList
+	var stock models.StockDataList
 
 	err = stocksCollection.FindOne(ctx, bson.M{"stockName": stockSymbol}).Decode(&stock)
 	if err != nil {
@@ -38,6 +39,7 @@ func updateSingleStock(stockFromHerocu models.ResponsedDataFromHerocu) {
 	_, err = stocksCollection.UpdateOne(ctx, bson.M{"stockName": stockSymbol}, bson.M{"$set": stock})
 	if err != nil {
 		fmt.Println("Update failed")
+		IfNewThenAdd(stockSymbol)
 		return
 	}
 
@@ -66,7 +68,7 @@ func updateAllData() bool {
 
 // UpdateEveryDay updates stock data everyday 3:10pm
 func UpdateEveryDay(rw http.ResponseWriter, r *http.Request) {
-	TOKEN := "newToken"
+	TOKEN := os.Getenv("STONKS_TOKEN")
 
 	rw.Header().Add("content-type", "applicaiton/json")
 	params := mux.Vars(r)

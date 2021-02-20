@@ -11,3 +11,13 @@ func PustItemToFirst(list []string, newItem string) []string {
 
 	return updatedList
 }
+
+// Contains func
+func Contains(list []string, search string) bool {
+	for _, item := range list {
+		if search == item {
+			return true
+		}
+	}
+	return false
+}

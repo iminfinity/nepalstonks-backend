@@ -8,10 +8,16 @@ type StockDetails struct {
 	ClosingPrice []string `json:"closingPrice,omitempty" bson:"closingPrice,omitempty"`
 }
 
-// StockList struct
-type StockList struct {
+// StockDataList struct
+type StockDataList struct {
 	StockName string       `json:"stockName,omitempty" bson:"stockName,omitempty"`
 	StockData StockDetails `json:"stockData,omitempty" bson:"stockData,omitempty"`
+}
+
+// StockList struct
+type StockList struct {
+	List  []string `json:"list,omitempty" bson:"list,omitempty"`
+	Bodge string   `json:"bodge,omitempty" bson:"bodge,omitempty"`
 }
 
 // ResponsedDataFromHerocu struct
