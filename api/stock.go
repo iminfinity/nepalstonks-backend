@@ -40,8 +40,3 @@ func GetStockData(rw http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(rw).Encode(&stockData)
 	fmt.Println("Get request successful")
 }
-
-// Give func
-func Give(rw http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(rw, "Working")
-}

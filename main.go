@@ -19,7 +19,7 @@ func main() {
 
 	router.HandleFunc("/api/stock-list", api.GetStockList).Methods("GET")
 
-	router.HandleFunc("/api/give", api.Give).Methods("GET")
+	router.HandleFunc("/api/wake-up", api.WakeUp).Methods("GET")
 
 	port := os.Getenv("PORT")
 	if port == "" {
