@@ -19,6 +19,8 @@ func main() {
 
 	router.HandleFunc("/api/stock-list", api.GetStockList).Methods("GET")
 
+	router.HandleFunc("/api/remove-duplicate", api.RemoveDuplicate).Methods("GET")
+
 	router.HandleFunc("/api/wake-up", api.WakeUp).Methods("GET")
 
 	port := os.Getenv("PORT")

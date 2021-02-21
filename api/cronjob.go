@@ -86,3 +86,45 @@ func UpdateEveryDay(rw http.ResponseWriter, r *http.Request) {
 		fmt.Println("Update Failed")
 	}
 }
+
+// RemoveDuplicate func
+func RemoveDuplicate(rw http.ResponseWriter, r *http.Request) {
+	var stockList models.StockList
+
+	err = stocksListCollection.FindOne(ctx, bson.M{"bodge": "giveData"}).Decode(&stockList)
+	if err != nil {
+		http.Error(rw, "Failed getting stock list", http.StatusInternalServerError)
+		fmt.Println("Failed getting stock list")
+		return
+	}
+
+	for _, currentStock := range stockList.List {
+		var currentStockData models.StockDataList
+
+		err = stocksCollection.FindOne(ctx, bson.M{"stockName": currentStock}).Decode(&currentStockData)
+		if err != nil {
+			fmt.Println("Removing duplicate func failed")
+			return
+		}
+
+		details := currentStockData.StockData
+
+		if details.Date[0] != details.Date[1] {
+			continue
+		}
+
+		details.Date = details.Date[1:]
+		details.MaxPrice = details.MaxPrice[1:]
+		details.MinPrice = details.MinPrice[1:]
+		details.ClosingPrice = details.ClosingPrice[1:]
+
+		currentStockData.StockData = details
+		_, err = stocksCollection.UpdateOne(ctx, bson.M{"stockName": currentStock}, bson.M{"$set": currentStockData})
+		if err != nil {
+			fmt.Println("Removing duplicate func failed")
+			return
+		}
+	}
+
+	fmt.Println("Remove Duplicate ran successfully")
+}
