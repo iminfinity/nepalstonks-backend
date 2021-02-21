@@ -4,9 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"sync"
 
 	"github.com/gorilla/mux"
 	"github.com/iminfinity/nepalstonks/models"
+	"github.com/iminfinity/nepalstonks/utils"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -23,7 +25,18 @@ func GetStockData(rw http.ResponseWriter, r *http.Request) {
 		fmt.Println("Get request failed")
 		return
 	}
+	var wg sync.WaitGroup
 
+	wg.Add(1)
+	go utils.Reverse(&wg, stockData.StockData.Date)
+	wg.Add(1)
+	go utils.Reverse(&wg, stockData.StockData.MaxPrice)
+	wg.Add(1)
+	go utils.Reverse(&wg, stockData.StockData.MinPrice)
+	wg.Add(1)
+	go utils.Reverse(&wg, stockData.StockData.ClosingPrice)
+
+	wg.Wait()
 	json.NewEncoder(rw).Encode(&stockData)
 	fmt.Println("Get request successful")
 }

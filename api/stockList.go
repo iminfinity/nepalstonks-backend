@@ -21,7 +21,6 @@ func GetStockList(rw http.ResponseWriter, r *http.Request) {
 		fmt.Println("Failed getting stock list")
 		return
 	}
-	fmt.Println(stockList)
 	json.NewEncoder(rw).Encode(&stockList.List)
 	fmt.Println("Getting list of stock successfull")
 }

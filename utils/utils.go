@@ -1,5 +1,7 @@
 package utils
 
+import "sync"
+
 // PustItemToFirst func
 func PustItemToFirst(list []string, newItem string) []string {
 	updatedList := []string{}
@@ -20,4 +22,12 @@ func Contains(list []string, search string) bool {
 		}
 	}
 	return false
+}
+
+// Reverse func
+func Reverse(wg *sync.WaitGroup, list []string) {
+	defer wg.Done()
+	for i, j := 0, len(list)-1; i < j; i, j = i+1, j-1 {
+		list[i], list[j] = list[j], list[i]
+	}
 }

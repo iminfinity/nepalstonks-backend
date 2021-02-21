@@ -27,7 +27,7 @@ func main() {
 	}
 
 	corsHandler := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:3000"},
+		AllowedOrigins: []string{"http://localhost:3000", "https://nepalstonks.com", "195.201.26.157", "116.203.134.67", "116.203.129.16"},
 	})
 
 	http.ListenAndServe(":"+port, corsHandler.Handler(router))

@@ -49,7 +49,7 @@ func updateAllData() bool {
 	response, err := http.Get("https://nepstockapi.herokuapp.com/")
 	if err != nil {
 		fmt.Println("Error")
-		return true
+		return false
 	}
 	data, err := ioutil.ReadAll(response.Body)
 	var rawData []models.ResponsedDataFromHerocu
@@ -57,13 +57,13 @@ func updateAllData() bool {
 	err = json.Unmarshal([]byte(data), &rawData)
 	if err != nil {
 		fmt.Println("Update failed")
-		return true
+		return false
 	}
 	for _, currentStock := range rawData {
 		updateSingleStock(currentStock)
 	}
 
-	return false
+	return true
 }
 
 // UpdateEveryDay updates stock data everyday 3:10pm
