@@ -100,23 +100,27 @@ func RemoveDuplicate(rw http.ResponseWriter, r *http.Request) {
 
 	for _, currentStock := range stockList.List {
 		var currentStockData models.StockDataList
-
+		fmt.Println("1")
 		err = stocksCollection.FindOne(ctx, bson.M{"stockName": currentStock}).Decode(&currentStockData)
 		if err != nil {
 			fmt.Println("Removing duplicate func failed")
 			return
 		}
+		fmt.Println("2")
 
 		details := currentStockData.StockData
+		fmt.Println("3")
 
 		if details.Date[0] != details.Date[1] {
 			continue
 		}
+		fmt.Println("4")
 
 		details.Date = details.Date[1:]
 		details.MaxPrice = details.MaxPrice[1:]
 		details.MinPrice = details.MinPrice[1:]
 		details.ClosingPrice = details.ClosingPrice[1:]
+		fmt.Println("5")
 
 		currentStockData.StockData = details
 		_, err = stocksCollection.UpdateOne(ctx, bson.M{"stockName": currentStock}, bson.M{"$set": currentStockData})
@@ -125,6 +129,7 @@ func RemoveDuplicate(rw http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+	fmt.Println("6")
 
 	fmt.Println("Remove Duplicate ran successfully")
 }
