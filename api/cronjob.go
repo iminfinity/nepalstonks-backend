@@ -103,8 +103,8 @@ func RemoveDuplicate(rw http.ResponseWriter, r *http.Request) {
 
 		err = stocksCollection.FindOne(ctx, bson.M{"stockName": currentStock}).Decode(&currentStockData)
 		if err != nil {
-			fmt.Println("Removing duplicate func failed")
-			return
+			fmt.Printf("Removing duplicate has some error with stock %s", currentStock)
+			continue
 		}
 
 		details := currentStockData.StockData
@@ -124,8 +124,8 @@ func RemoveDuplicate(rw http.ResponseWriter, r *http.Request) {
 		currentStockData.StockData = details
 		_, err = stocksCollection.UpdateOne(ctx, bson.M{"stockName": currentStock}, bson.M{"$set": currentStockData})
 		if err != nil {
-			fmt.Println("Removing duplicate func failed")
-			return
+			fmt.Printf("Removing duplicate has some error with stock %s", currentStock)
+			continue
 		}
 	}
 	fmt.Println("Remove Duplicate ran successfully")
