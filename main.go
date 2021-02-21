@@ -15,11 +15,11 @@ func main() {
 
 	router.HandleFunc("/api/stock-data/{stock}", api.GetStockData).Methods("GET")
 
-	router.HandleFunc("/api/update-every-day/{token}", api.UpdateEveryDay).Methods("GET")
+	router.HandleFunc("/api/update-every-day/{token}", api.UpdateEveryDay).Methods("POST")
 
 	router.HandleFunc("/api/stock-list", api.GetStockList).Methods("GET")
 
-	router.HandleFunc("/api/remove-duplicate", api.RemoveDuplicate).Methods("GET")
+	router.HandleFunc("/api/remove-duplicate", api.RemoveDuplicate).Methods("DELETE")
 
 	router.HandleFunc("/api/wake-up", api.WakeUp).Methods("GET")
 
