@@ -21,7 +21,8 @@ func GetStockData(rw http.ResponseWriter, r *http.Request) {
 
 	err = stocksCollection.FindOne(ctx, bson.M{"stockName": stock}).Decode(&stockData)
 	if err != nil {
-		http.Error(rw, "Stock not available", http.StatusInternalServerError)
+		json.NewEncoder(rw).Encode(&stockData)
+		// http.Error(rw, "Stock not available", http.StatusInternalServerError)
 		fmt.Println("Get request failed")
 		return
 	}
